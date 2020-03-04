@@ -5,10 +5,8 @@
  */
 package com.example.restservice.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Collection;
 
 /**
  *
@@ -19,6 +17,9 @@ public class Airport {
 
     private int id;
     private String name;
+    private Collection<Flight> departureFlights;
+    private Collection<Flight> arrivalFlights;
+
 
     public Airport() {
     }
@@ -46,5 +47,23 @@ public class Airport {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @OneToMany(mappedBy = "departureAirport")
+    public Collection<Flight> getDepartureFlights() {
+        return departureFlights;
+    }
+
+    public void setDepartureFlights(Collection<Flight> departureFlights) {
+        this.departureFlights = departureFlights;
+    }
+
+    @OneToMany(mappedBy = "arrivalAirport")
+    public Collection<Flight> getArrivalFlights() {
+        return arrivalFlights;
+    }
+
+    public void setArrivalFlights(Collection<Flight> arrivalFlights) {
+        this.arrivalFlights = arrivalFlights;
     }
 }

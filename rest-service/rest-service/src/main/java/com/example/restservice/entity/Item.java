@@ -5,10 +5,7 @@
  */
 package com.example.restservice.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  *
@@ -18,8 +15,6 @@ import javax.persistence.Id;
 @Entity
 public class Item {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;
@@ -35,6 +30,9 @@ public class Item {
        
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id", nullable = false)
     public Integer getId() {
         return id;
     }
@@ -43,6 +41,8 @@ public class Item {
         this.id = id;
     }
 
+    @Basic
+    @Column(name = "name", nullable = false)
     public String getName() {
         return name;
     }
@@ -51,6 +51,8 @@ public class Item {
         this.name = name;
     }
 
+    @Basic
+    @Column(name = "email", nullable = true)
     public String getEmail() {
         return email;
     }
