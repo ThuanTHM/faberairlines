@@ -18,7 +18,7 @@ public class AirportController {
         return getAllAirport();
     }
 
-    @PostMapping(path = "/add") // Map ONLY POST Requests
+    @PostMapping(path = "/all") // Map ONLY POST Requests
     public ModelAndView addNewUser(@ModelAttribute Airport airportDetail) {
 
         // @ResponseBody means the returned String is the response, not a view name

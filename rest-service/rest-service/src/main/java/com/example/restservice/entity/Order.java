@@ -5,12 +5,9 @@
  */
 package com.example.restservice.entity;
 
-import com.example.restservice.viewmodel.Customer;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.Collection;
+import java.sql.Timestamp;
 
 /**
  * @author FB-001
@@ -18,8 +15,10 @@ import java.util.Collection;
 @Entity
 @Table(name = "orderinf")
 public class Order {
-    private String id;//order's id
-    private Date orderTime;//time created of order, maybe at last modified before order being processed
+    private static final long serialVersionUID = -297553281792804396L;
+
+    private Long id;//order's id
+    private Timestamp orderTime;//time created of order, maybe at last modified before order being processed
     private boolean returntrip;//return trip or not (one-way trip)
     private String contactName;
     private BigDecimal contactPhoneNum;
@@ -38,23 +37,24 @@ public class Order {
     }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
     //todo set nullable = false
     @Basic
     @Column(name = "order_time", nullable = true)
-    public Date getOrderTime() {
+    public Timestamp getOrderTime() {
         return orderTime;
     }
 
-    public void setOrderTime(Date orderTime) {
+    public void setOrderTime(Timestamp orderTime) {
         this.orderTime = orderTime;
     }
 

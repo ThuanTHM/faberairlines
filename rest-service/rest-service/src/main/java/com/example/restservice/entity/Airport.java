@@ -17,7 +17,9 @@ import java.util.Collection;
 @Entity
 @Table(name = "airport", schema = "dbexample")
 public class Airport {
-    private String id;
+    private static final long serialVersionUID = -297553281792804396L;
+
+    private Long id;
     private String name;
     private Collection<Flight> departureFlights;
     private Collection<Flight> arrivalFlights;
@@ -26,18 +28,18 @@ public class Airport {
     public Airport() {
     }
 
-    public Airport(String id, String name) {
-        this.id = id;
+    public Airport(String name) {
         this.name = name;
     }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

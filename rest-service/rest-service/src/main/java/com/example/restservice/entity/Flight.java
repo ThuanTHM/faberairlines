@@ -5,8 +5,14 @@
  */
 package com.example.restservice.entity;
 
+import com.example.restservice.viewmodel.OrderForm;
+import com.fasterxml.jackson.annotation.JsonView;
+import groovy.transform.EqualsAndHashCode;
+import net.bytebuddy.build.ToStringPlugin;
+
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.sql.Timestamp;
+import java.sql.Timestamp;
 import java.util.Collection;
 import javax.persistence.*;
 
@@ -15,10 +21,16 @@ import javax.persistence.*;
  */
 @Entity
 public class Flight {
-    private String id;
-    private Date departureTime;
-    private Date arrivalTime;
+    private static final long serialVersionUID = -297553281792804396L;
+
+    private Long id;
+    @JsonView({OrderForm.class})
+    private Timestamp departureTime;
+    @JsonView({OrderForm.class})
+    private Timestamp arrivalTime;
+    @JsonView({OrderForm.class})
     private Airport departureAirport;
+    @JsonView({OrderForm.class})
     private Airport arrivalAirport;
     //total seat
 
@@ -37,33 +49,47 @@ public class Flight {
     private Collection<Order> goFlightOrders;
     private Collection<Order> returnFlightOrders;
 
+    public Flight(Timestamp departureTime, Timestamp arrivalTime, Airport departureAirport, Airport arrivalAirport, int totalSeat, BigDecimal adultSeatPrice, BigDecimal childSeatPrice, BigDecimal infantSeatPrice, Collection<Order> goFlightOrders, Collection<Order> returnFlightOrders) {
+        this.departureTime = departureTime;
+        this.arrivalTime = arrivalTime;
+        this.departureAirport = departureAirport;
+        this.arrivalAirport = arrivalAirport;
+        this.totalSeat = totalSeat;
+        this.adultSeatPrice = adultSeatPrice;
+        this.childSeatPrice = childSeatPrice;
+        this.infantSeatPrice = infantSeatPrice;
+        this.goFlightOrders = goFlightOrders;
+        this.returnFlightOrders = returnFlightOrders;
+    }
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
     @Basic
     @Column(name = "departure_time", nullable = false)
-    public Date getDepartureTime() {
+    public Timestamp getDepartureTime() {
         return departureTime;
     }
 
-    public void setDepartureTime(Date departureTime) {
+    public void setDepartureTime(Timestamp departureTime) {
         this.departureTime = departureTime;
     }
 
     @Basic
     @Column(name = "arrival_time", nullable = false)
-    public Date getArrivalTime() {
+    public Timestamp getArrivalTime() {
         return arrivalTime;
     }
 
-    public void setArrivalTime(Date arrivalTime) {
+    public void setArrivalTime(Timestamp arrivalTime) {
         this.arrivalTime = arrivalTime;
     }
 

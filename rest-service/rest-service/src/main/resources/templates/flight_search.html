@@ -9,32 +9,26 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <h1 align="center">Airport List</h1>
-    <h2>Add Airport</h2>
-    <form th:action="@{/airport/all}" th:object="${airportDetail}" method="post">
-        <p>Location: <input type="text" th:field="*{name}"/></p>
-        <p>
-            <button type="submit" class="btn btn-success"> Add
+    <h1 align="center">Flight List</h1>
+    <h2>Flights</h2>
+    <form th:action="@{/airport/add}" th:object="${orderForm}" method="post">
+        <p><select th:field="*{isReturnTrip}">
+            <option th:value=1>Return Trip</option>
+            <option th:value=0>One Way</option>
+        </select> From: <select th:field="*{departureAirport}">
+            <option th:each="airport : ${airports}" th:value="${airport}" th:text="${airport?.name}"></option>
+        </select> To: <select th:field="*{arrivalAirport}">
+            <option th:each="airport : ${airports}" th:value="${airport}" th:text="${airport?.name}"></option>
+        </select>
+            <button type="submit" class="btn btn-success"> Bay
             </button>
         </p>
     </form>
-    <br/>
-    <table border="1" cellpadding="10" align="center">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Location</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="item : ${airports}">
-            <td th:text="${item?.id}"></td>
-            <td th:text="${item?.name}"></td>
-        </tr>
-        </tbody>
-    </table>
 </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script>
+    
+</script>
 </html>
