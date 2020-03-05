@@ -5,6 +5,8 @@
  */
 package com.example.restservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -13,9 +15,9 @@ import java.util.Collection;
  * @author FB-001
  */
 @Entity
+@Table(name = "airport", schema = "dbexample")
 public class Airport {
-
-    private int id;
+    private String id;
     private String name;
     private Collection<Flight> departureFlights;
     private Collection<Flight> arrivalFlights;
@@ -24,18 +26,18 @@ public class Airport {
     public Airport() {
     }
 
-    public Airport(int id, String name) {
+    public Airport(String id, String name) {
         this.id = id;
         this.name = name;
     }
 
     @Id
     @Column(name = "id", nullable = false)
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

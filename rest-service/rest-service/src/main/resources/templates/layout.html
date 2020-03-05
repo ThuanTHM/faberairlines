@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+    <!--/*  Each token will be replaced by their respective titles in the resulting page. */-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Task List</title>
+</head>
+<body>
+<!--/* Standard layout can be mixed with Layout Dialect */-->
+<div th:replace="fragments/header :: header">
+    ...
+</div>
+<div class="container">
+    <div layout:fragment="content">
+
+    </div>
+    <!--    <div th:replace="fragments/footer :: footer">&copy; 2014 The Static Templates</div>-->
+</div>
+</body>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</html>

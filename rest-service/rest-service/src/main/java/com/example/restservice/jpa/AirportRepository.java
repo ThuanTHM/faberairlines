@@ -7,6 +7,10 @@ package com.example.restservice.jpa;
 
 import com.example.restservice.entity.Airport;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import java.util.Collection;
 
 /**
  *
@@ -15,4 +19,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AirportRepository extends JpaRepository<Airport, Integer> {
 
+    public Airport findByName(String name);
+
+    @Query("select a from Airport a where a.name LIKE :name")
+    public Collection<Airport> filtering(@Param("name") String name);
 }

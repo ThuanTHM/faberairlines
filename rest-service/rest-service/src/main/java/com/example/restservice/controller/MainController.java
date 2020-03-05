@@ -16,12 +16,13 @@ import com.example.restservice.jpa.ItemRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
  * @author FB-001
  */
-@RestController // This means that this class is a RestController
+@Controller // This means that this class is a RestController
 @RequestMapping(path = "/demo") // This means URL's start with /demo (after Application path)
 public class MainController {
     @Autowired // This means to get the bean called ItemRepository
@@ -43,9 +44,10 @@ public class MainController {
     }
 
     @GetMapping(path = "/all")
-    public String getAllUsers(Model model) {
+    public ModelAndView getAllUsers() {
         // This returns a JSON or XML with the users
-        model.addAttribute("items", itemRepository.findAll());
-        return "items";
+        ModelAndView model = new ModelAndView("items");
+        model.addObject("items", itemRepository.findAll());
+        return model;
     }
 }

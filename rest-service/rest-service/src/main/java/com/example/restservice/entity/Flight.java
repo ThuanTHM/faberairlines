@@ -29,7 +29,7 @@ public class Flight {
     // -system & admin fee
     // -domestic passenger service charge depend on international/ national flight
     // -domestic itineries: (including VAT 10%) for adult depending on airport. Children from 2 to under 12 years pay 50% applicable adult rate. Infants under 2 years without seats are exempt.
-    // -VAT
+    // (VAT: regularly by 10% of NET seat price + dps
     private BigDecimal adultSeatPrice;//temporarily input by user
     private BigDecimal childSeatPrice;//temporarily input by user
     private BigDecimal infantSeatPrice;//temporarily input by user
