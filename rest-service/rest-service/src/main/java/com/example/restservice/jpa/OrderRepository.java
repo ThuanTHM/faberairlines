@@ -15,6 +15,6 @@ import java.util.Collection;
  * @author FB-001
  */
 
-public interface OrderRepository extends JpaRepository<Order, Integer> {
+public interface OrderRepository extends JpaRepository<Order, Long> {
     public Order findByContactName(String contactName);
 }

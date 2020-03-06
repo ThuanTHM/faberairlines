@@ -13,6 +13,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author FB-001
  */
 
-public interface FlightRepository extends JpaRepository<Flight, Integer> {
+public interface FlightRepository extends JpaRepository<Flight, Long> {
 
 }

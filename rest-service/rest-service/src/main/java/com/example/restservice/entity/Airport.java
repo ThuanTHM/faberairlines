@@ -21,6 +21,7 @@ public class Airport {
 
     private Long id;
     private String name;
+    private String location;
     private Collection<Flight> departureFlights;
     private Collection<Flight> arrivalFlights;
 
@@ -28,8 +29,9 @@ public class Airport {
     public Airport() {
     }
 
-    public Airport(String name) {
+    public Airport(String name, String location) {
         this.name = name;
+        this.location = location;
     }
 
     @Id
@@ -53,7 +55,16 @@ public class Airport {
         this.name = name;
     }
 
-    @OneToMany(mappedBy = "departureAirport")
+    @Basic
+    @Column(name = "location", nullable = false)
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+    @OneToMany(mappedBy = "departureAirport", fetch = FetchType.LAZY)
     public Collection<Flight> getDepartureFlights() {
         return departureFlights;
     }
@@ -62,7 +73,7 @@ public class Airport {
         this.departureFlights = departureFlights;
     }
 
-    @OneToMany(mappedBy = "arrivalAirport")
+    @OneToMany(mappedBy = "arrivalAirport", fetch = FetchType.LAZY)
     public Collection<Flight> getArrivalFlights() {
         return arrivalFlights;
     }

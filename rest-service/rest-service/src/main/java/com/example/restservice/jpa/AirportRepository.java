@@ -17,7 +17,7 @@ import java.util.Collection;
  * @author FB-001
  */
 
-public interface AirportRepository extends JpaRepository<Airport, Integer> {
+public interface AirportRepository extends JpaRepository<Airport, Long> {
 
     public Airport findByName(String name);
 

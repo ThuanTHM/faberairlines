@@ -158,7 +158,7 @@ public class Order {
     }
 
     //    todo set nullable = false
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "go_flight_id", referencedColumnName = "id", nullable = true)
     public Flight getGoFlight() {
         return goFlight;
@@ -169,7 +169,7 @@ public class Order {
     }
 
     //    todo set nullable = false
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "return_flight_id", referencedColumnName = "id", nullable = true)
     public Flight getReturnFlight() {
         return returnFlight;

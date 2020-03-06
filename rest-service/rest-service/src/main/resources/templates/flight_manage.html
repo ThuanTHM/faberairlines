@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorate="layout">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Airports</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1 align="center">Flight List</h1>
+    <h2>Create flight</h2>
+    <div>
+        <form th:action="@{manage/create}" th:object="${flightForm}" method="post" align="center">
+            From:
+            <select th:field="*{departureAirport}">
+                <option th:each="airport : ${airports}" th:value="${airport}" th:text="${airport?.name}"></option>
+            </select>
+            Departure At <input type="datetime-local" th:field="*{departureDatetimeLocalString}"/>
+            <br/>
+            To:
+            <select th:field="*{arrivalAirport}">
+                <option th:each="airport : ${airports}" th:value="${airport}" th:text="${airport?.name}"></option>
+            </select>
+            Arrival At<input type="datetime-local" th:field="*{arrivalDatetimeLocalString}"/>
+            <br/>
+            Total Seat: <input type="number" th:field="*{totalSeat}"/>
+            Adult(VND)<input type="number" th:field="*{adultSeatPrice}"/>
+            Children(VND)<input type="number" th:field="*{adultSeatPrice}"/>
+            Infant(VND)<input type="number" th:field="*{adultSeatPrice}"/>
+            <button type="submit" class="btn btn-success"> Thêm 1 chyến bay >w< </button>
+        </form>
+    </div>
+    <br/>
+    <div>
+        <h2 align="center">Flights</h2>
+        <table border="1" cellpadding="10" align="center">
+            <thead>
+            <tr>
+                <th>Departure Airport</th>
+                <th>Arrival Airport</th>
+                <th>Departure Time</th>
+                <th>Arrival Time</th>
+                <th>Total Seats</th>
+                <th>Available Seats</th>
+                <th>Adult(>11 years old)(VND)</th>
+                <th>Child(2-11 years old)(VND)</th>
+                <th>Infant(<2 years old)(VND)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${flights}">
+                <td th:text="${item?.departureAirport?.name + ' - ' + item?.departureAirport?.location}"></td>
+                <td th:text="${item?.arrivalAirport?.name + ' - ' + item?.arrivalAirport?.location}"></td>
+                <td th:text="${item?.departureTime}"></td>
+                <td th:text="${item?.arrivalTime}"></td>
+                <td th:text="${item?.totalSeat}"></td>
+<!--                <td th:text="${item?.availableSeat}"></td>-->
+                <td>(todo)</td>
+                <td th:text="${item?.adultSeatPrice}"></td>
+                <td th:text="${item?.childSeatPrice}"></td>
+                <td th:text="${item?.infantSeatPrice}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+</body>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script>
+
+</script>
+</html>

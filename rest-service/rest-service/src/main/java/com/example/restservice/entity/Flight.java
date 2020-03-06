@@ -5,13 +5,10 @@
  */
 package com.example.restservice.entity;
 
-import com.example.restservice.viewmodel.OrderForm;
-import com.fasterxml.jackson.annotation.JsonView;
-import groovy.transform.EqualsAndHashCode;
-import net.bytebuddy.build.ToStringPlugin;
+//import com.example.restservice.viewmodel.TargetView;
+//import com.fasterxml.jackson.annotation.JsonView;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.sql.Timestamp;
 import java.util.Collection;
 import javax.persistence.*;
@@ -24,29 +21,36 @@ public class Flight {
     private static final long serialVersionUID = -297553281792804396L;
 
     private Long id;
-    @JsonView({OrderForm.class})
+//    @JsonView({TargetView.flightView.class, TargetView.orderView.class})
     private Timestamp departureTime;
-    @JsonView({OrderForm.class})
+//    @JsonView({TargetView.flightView.class, TargetView.orderView.class})
     private Timestamp arrivalTime;
-    @JsonView({OrderForm.class})
+//    @JsonView({TargetView.flightView.class, TargetView.orderView.class})
     private Airport departureAirport;
-    @JsonView({OrderForm.class})
+//    @JsonView({TargetView.flightView.class, TargetView.orderView.class})
     private Airport arrivalAirport;
     //total seat
 
     //todo dumming for missing business's feature
+//    @JsonView({TargetView.flightView.class})
     private int totalSeat;//info of this field maybe moved into another entity storing Plane's info as soon as posible
-    //    price for 3 different age ranks depends on these infomations and based on algorithm which may be cover soon as possible:
+//    @JsonView({TargetView.flightView.class})
+    private BigDecimal adultSeatPrice;//temporarily input by user
+//    @JsonView({TargetView.flightView.class})
+    private BigDecimal childSeatPrice;//temporarily input by user
+//    @JsonView({TargetView.flightView.class})
+    private BigDecimal infantSeatPrice;//temporarily input by user
+
+    //    price for 3 different age ranks depends on these infomations and based on algorithm which may be cover as soon as possibledeparture:
     // -NET seat price
     // -system & admin fee
     // -domestic passenger service charge depend on international/ national flight
     // -domestic itineries: (including VAT 10%) for adult depending on airport. Children from 2 to under 12 years pay 50% applicable adult rate. Infants under 2 years without seats are exempt.
-    // (VAT: regularly by 10% of NET seat price + dps
-    private BigDecimal adultSeatPrice;//temporarily input by user
-    private BigDecimal childSeatPrice;//temporarily input by user
-    private BigDecimal infantSeatPrice;//temporarily input by user
+    // (VAT: regularly by 10% of NET seat price + dps)
 
+//    @JsonView({TargetView.flightView.class})
     private Collection<Order> goFlightOrders;
+//    @JsonView({TargetView.flightView.class})
     private Collection<Order> returnFlightOrders;
 
     public Flight(Timestamp departureTime, Timestamp arrivalTime, Airport departureAirport, Airport arrivalAirport, int totalSeat, BigDecimal adultSeatPrice, BigDecimal childSeatPrice, BigDecimal infantSeatPrice, Collection<Order> goFlightOrders, Collection<Order> returnFlightOrders) {
@@ -133,7 +137,7 @@ public class Flight {
         this.infantSeatPrice = infantSeatPrice;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "departure_airport_id", referencedColumnName = "id", nullable = false)
     public Airport getDepartureAirport() {
         return departureAirport;
@@ -143,7 +147,7 @@ public class Flight {
         this.departureAirport = departureAirport;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "arrival_airport_id", referencedColumnName = "id", nullable = false)
     public Airport getArrivalAirport() {
         return arrivalAirport;
@@ -153,7 +157,7 @@ public class Flight {
         this.arrivalAirport = arrivalAirport;
     }
 
-    @OneToMany(mappedBy = "goFlight")
+    @OneToMany(mappedBy = "goFlight", fetch = FetchType.LAZY)
     public Collection<Order> getGoFlightOrders() {
         return goFlightOrders;
     }
@@ -162,7 +166,7 @@ public class Flight {
         this.goFlightOrders = goFlightOrders;
     }
 
-    @OneToMany(mappedBy = "returnFlight")
+    @OneToMany(mappedBy = "returnFlight", fetch = FetchType.LAZY)
     public Collection<Order> getReturnFlightOrders() {
         return returnFlightOrders;
     }

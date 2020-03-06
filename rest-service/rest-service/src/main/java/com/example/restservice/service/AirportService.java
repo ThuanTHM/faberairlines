@@ -1,14 +1,16 @@
 package com.example.restservice.service;
 
 import com.example.restservice.entity.Airport;
+import com.example.restservice.exception.RecordNotFoundException;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Collection;
 
 public interface AirportService {
     Collection<Airport> findAll();
-    Airport create(Airport airport);
+    Airport findById(Long id) throws RecordNotFoundException;
+    Airport createOrUpdate(Airport airport);
     Airport save(Airport airport);
-    Airport delete(Airport airport);
+    void delete(Long id) throws RecordNotFoundException;
     Collection<Airport> filtering(Airport airport);
 }

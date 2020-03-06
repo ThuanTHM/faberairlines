@@ -16,12 +16,11 @@
             <option th:value=1>Return Trip</option>
             <option th:value=0>One Way</option>
         </select> From: <select th:field="*{departureAirport}">
-            <option th:each="airport : ${airports}" th:value="${airport}" th:text="${airport?.name}"></option>
+            <option th:each="airport : ${airports}" th:value="${airport}" th:text="${airport?.name + ' - ' + airport?.location}"></option>
         </select> To: <select th:field="*{arrivalAirport}">
-            <option th:each="airport : ${airports}" th:value="${airport}" th:text="${airport?.name}"></option>
+            <option th:each="airport : ${airports}" th:value="${airport}" th:text="${airport?.name + ' - ' + airport?.location}"></option>
         </select>
-            <button type="submit" class="btn btn-success"> Bay
-            </button>
+            <button type="submit" class="btn btn-success"> Bay zéo cái tới nơi OvO </button>
         </p>
     </form>
 </div>
@@ -29,6 +28,6 @@
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <script>
-    
+
 </script>
 </html>
