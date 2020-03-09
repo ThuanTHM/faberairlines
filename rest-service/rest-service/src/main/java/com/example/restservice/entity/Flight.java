@@ -18,10 +18,12 @@ import javax.persistence.*;
  */
 @Entity
 public class Flight {
-    private static final long serialVersionUID = -297553281792804396L;
+    private static final long serialVersionUID = 1L;
 
     private Long id;
-//    @JsonView({TargetView.flightView.class, TargetView.orderView.class})
+
+    private String code;
+    
     private Timestamp departureTime;
 //    @JsonView({TargetView.flightView.class, TargetView.orderView.class})
     private Timestamp arrivalTime;
@@ -49,11 +51,10 @@ public class Flight {
     // (VAT: regularly by 10% of NET seat price + dps)
 
 //    @JsonView({TargetView.flightView.class})
-    private Collection<Order> goFlightOrders;
+    private Collection<Seat> seats;
 //    @JsonView({TargetView.flightView.class})
-    private Collection<Order> returnFlightOrders;
 
-    public Flight(Timestamp departureTime, Timestamp arrivalTime, Airport departureAirport, Airport arrivalAirport, int totalSeat, BigDecimal adultSeatPrice, BigDecimal childSeatPrice, BigDecimal infantSeatPrice, Collection<Order> goFlightOrders, Collection<Order> returnFlightOrders) {
+    public Flight(Timestamp departureTime, Timestamp arrivalTime, Airport departureAirport, Airport arrivalAirport, int totalSeat, BigDecimal adultSeatPrice, BigDecimal childSeatPrice, BigDecimal infantSeatPrice, Collection<Seat> seats) {
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
         this.departureAirport = departureAirport;
@@ -62,8 +63,7 @@ public class Flight {
         this.adultSeatPrice = adultSeatPrice;
         this.childSeatPrice = childSeatPrice;
         this.infantSeatPrice = infantSeatPrice;
-        this.goFlightOrders = goFlightOrders;
-        this.returnFlightOrders = returnFlightOrders;
+        this.seats = seats;
     }
 
     @Id
@@ -77,6 +77,16 @@ public class Flight {
         this.id = id;
     }
 
+    @Basic
+    @Column(name = "code", nullable = false)
+    public String getCode() {
+        return code;
+    }
+//    @JsonView({TargetView.flightView.class, TargetView.orderView.class})
+    public void setCode(String code) {
+        this.code = code;
+    }
+    
     @Basic
     @Column(name = "departure_time", nullable = false)
     public Timestamp getDepartureTime() {
@@ -157,21 +167,12 @@ public class Flight {
         this.arrivalAirport = arrivalAirport;
     }
 
-    @OneToMany(mappedBy = "goFlight", fetch = FetchType.LAZY)
-    public Collection<Order> getGoFlightOrders() {
-        return goFlightOrders;
+    @OneToMany(mappedBy = "flight", fetch = FetchType.LAZY)
+    public Collection<Seat> getSeats() {
+        return seats;
     }
 
-    public void setGoFlightOrders(Collection<Order> goFlightOrders) {
-        this.goFlightOrders = goFlightOrders;
-    }
-
-    @OneToMany(mappedBy = "returnFlight", fetch = FetchType.LAZY)
-    public Collection<Order> getReturnFlightOrders() {
-        return returnFlightOrders;
-    }
-
-    public void setReturnFlightOrders(Collection<Order> returnFlightOrders) {
-        this.returnFlightOrders = returnFlightOrders;
+    public void setSeats(Collection<Seat> seats) {
+        this.seats = seats;
     }
 }

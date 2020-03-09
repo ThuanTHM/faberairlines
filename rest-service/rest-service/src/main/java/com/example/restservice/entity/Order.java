@@ -8,6 +8,7 @@ package com.example.restservice.entity;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Collection;
 
 /**
  * @author FB-001
@@ -15,7 +16,7 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "orderinf")
 public class Order {
-    private static final long serialVersionUID = -297553281792804396L;
+    private static final long serialVersionUID = 1L;
 
     private Long id;//order's id
     private Timestamp orderTime;//time created of order, maybe at last modified before order being processed
@@ -24,17 +25,7 @@ public class Order {
     private BigDecimal contactPhoneNum;
     private String contactEmail;
     private String contactAddress;
-    private Flight goFlight;
-    private Flight returnFlight;
-    private int adultNum;//num of >11 years old
-    private int childrenNum;//num of children 2-11 years old
-    private int infantNum;//num of infants <2 years old
-    private String customersInfos;//json string stores list of all customers's names & age ranks
-//    private Collection<Customer> customers;//
-
-    public Order() {
-
-    }
+    private Collection<Ticket> tickets;    
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -112,72 +103,13 @@ public class Order {
     public void setContactAddress(String contactAddress) {
         this.contactAddress = contactAddress;
     }
-
-    //todo set nullable = false
-    @Basic
-    @Column(name = "adult_num", nullable = true)
-    public int getAdultNum() {
-        return adultNum;
+    
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
+    public Collection<Ticket> getTickets() {
+        return tickets;
     }
 
-    public void setAdultNum(int adultNum) {
-        this.adultNum = adultNum;
+    public void setTickets(Collection<Ticket> tickets) {
+        this.tickets = tickets;
     }
-
-    //todo set nullable = false
-    @Basic
-    @Column(name = "children_num", nullable = true)
-    public int getChildrenNum() {
-        return childrenNum;
-    }
-
-    public void setChildrenNum(int childrenNum) {
-        this.childrenNum = childrenNum;
-    }
-
-    //todo set nullable = false
-    @Basic
-    @Column(name = "infant_num", nullable = true)
-    public int getInfantNum() {
-        return infantNum;
-    }
-
-    public void setInfantNum(int infantNum) {
-        this.infantNum = infantNum;
-    }
-
-    //todo set nullable = false
-    @Basic
-    @Column(name = "customers_infos", nullable = true)
-    public String getCustomersInfos() {
-        return customersInfos;
-    }
-
-    public void setCustomersInfos(String customersInfos) {
-        this.customersInfos = customersInfos;
-    }
-
-    //    todo set nullable = false
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "go_flight_id", referencedColumnName = "id", nullable = true)
-    public Flight getGoFlight() {
-        return goFlight;
-    }
-
-    public void setGoFlight(Flight goFlight) {
-        this.goFlight = goFlight;
-    }
-
-    //    todo set nullable = false
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "return_flight_id", referencedColumnName = "id", nullable = true)
-    public Flight getReturnFlight() {
-        return returnFlight;
-    }
-
-    public void setReturnFlight(Flight returnFlight) {
-        this.returnFlight = returnFlight;
-    }
-
-
 }

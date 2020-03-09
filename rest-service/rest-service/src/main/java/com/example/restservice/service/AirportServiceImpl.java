@@ -4,6 +4,8 @@ import com.example.restservice.entity.Airport;
 import com.example.restservice.exception.RecordNotFoundException;
 import com.example.restservice.jpa.AirportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,22 +14,21 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 @Service("airportService")
-public class AirportServiceImpl implements AirportService{
+public class AirportServiceImpl implements AirportService {
     static Logger logger = Logger.getLogger(AirportServiceImpl.class.getName());
 
     @Autowired
     private AirportRepository airportRepository;
 
-    public Airport save(Airport airport){
+    public Airport save(Airport airport) {
         return airportRepository.save(airport);
     }
 
     @Override
-    public void delete(Long id) throws RecordNotFoundException{
+    public void delete(Long id) throws RecordNotFoundException {
         Optional<Airport> airport = airportRepository.findById(id);
 
-        if(airport.isPresent())
-        {
+        if (airport.isPresent()) {
             airportRepository.deleteById(id);
         } else {
             throw new RecordNotFoundException("No employee record exist for given id");
@@ -39,15 +40,19 @@ public class AirportServiceImpl implements AirportService{
         return null;
     }
 
-    public Collection<Airport> findAll(){
-        return airportRepository.findAll().size()>0?airportRepository.findAll():(new ArrayList<Airport>());
+    public Collection<Airport> findAll() {
+        return airportRepository.findAll().size() > 0 ? airportRepository.findAll() : (new ArrayList<Airport>());
+    }
+
+    public Page<Airport> findAll(PageRequest p) {
+        return airportRepository.findAll(p);
     }
 
     @Override
     public Airport findById(Long id) throws RecordNotFoundException {
-        Optional<Airport> airport =  airportRepository.findById(id);
+        Optional<Airport> airport = airportRepository.findById(id);
 
-        if(airport.isPresent()) {
+        if (airport.isPresent()) {
             return airport.get();
         } else {
             throw new RecordNotFoundException("No employee record exist for given id");
@@ -56,17 +61,13 @@ public class AirportServiceImpl implements AirportService{
 
     @Override
     public Airport createOrUpdate(Airport airport) {
-        if(airport.getId()  == null)
-        {
+        if (airport.getId() == null) {
             airport = airportRepository.save(airport);
 
             return airport;
-        }
-        else
-        {
+        } else {
             Optional<Airport> a = airportRepository.findById(airport.getId());
-            if(a.isPresent())
-            {
+            if (a.isPresent()) {
                 Airport newEntity = a.get();
                 newEntity.setName(airport.getName());
                 newEntity.setLocation(airport.getLocation());
@@ -79,7 +80,7 @@ public class AirportServiceImpl implements AirportService{
         }
     }
 
-    public Airport findByName(String name){
+    public Airport findByName(String name) {
         return airportRepository.findByName(name);
     }
 

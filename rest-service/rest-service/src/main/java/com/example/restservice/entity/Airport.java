@@ -11,17 +11,18 @@ import javax.persistence.*;
 import java.util.Collection;
 
 /**
- *
  * @author FB-001
  */
 @Entity
 @Table(name = "airport", schema = "dbexample")
 public class Airport {
-    private static final long serialVersionUID = -297553281792804396L;
+    private static final long serialVersionUID = 1L;
 
     private Long id;
     private String name;
     private String location;
+    private Boolean enable;
+
     private Collection<Flight> departureFlights;
     private Collection<Flight> arrivalFlights;
 
@@ -29,9 +30,10 @@ public class Airport {
     public Airport() {
     }
 
-    public Airport(String name, String location) {
+    public Airport(String name, String location, Boolean enable) {
         this.name = name;
         this.location = location;
+        this.enable = enable;
     }
 
     @Id
@@ -64,6 +66,17 @@ public class Airport {
     public void setLocation(String location) {
         this.location = location;
     }
+
+    @Basic
+    @Column(name = "enable", nullable = false)
+    public Boolean getEnable() {
+        return enable;
+    }
+
+    public void setEnable(Boolean enable) {
+        this.enable = enable;
+    }
+
     @OneToMany(mappedBy = "departureAirport", fetch = FetchType.LAZY)
     public Collection<Flight> getDepartureFlights() {
         return departureFlights;
