@@ -22,7 +22,7 @@ public class AirportController {
 
     @RequestMapping(path="/manage")
     public ModelAndView getAll(HttpServletRequest request){
-        int page = 0; //default page number is 0 (yes it is weird)
+        int page = 0; //default page number is 0 
         int size = 3; //default page size is 10
 
         if (request.getParameter("page") != null && !request.getParameter("page").isEmpty()) {

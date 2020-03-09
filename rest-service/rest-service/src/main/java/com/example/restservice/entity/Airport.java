@@ -9,6 +9,8 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.*;
 import java.util.Collection;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 /**
  * @author FB-001
@@ -22,7 +24,6 @@ public class Airport {
     private String name;
     private String location;
     private Boolean enable;
-
     private Collection<Flight> departureFlights;
     private Collection<Flight> arrivalFlights;
 
@@ -68,7 +69,7 @@ public class Airport {
     }
 
     @Basic
-    @Column(name = "enable", nullable = false)
+    @Column(name = "enable", nullable = true)
     public Boolean getEnable() {
         return enable;
     }
@@ -78,6 +79,7 @@ public class Airport {
     }
 
     @OneToMany(mappedBy = "departureAirport", fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     public Collection<Flight> getDepartureFlights() {
         return departureFlights;
     }
@@ -87,6 +89,7 @@ public class Airport {
     }
 
     @OneToMany(mappedBy = "arrivalAirport", fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     public Collection<Flight> getArrivalFlights() {
         return arrivalFlights;
     }

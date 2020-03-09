@@ -41,7 +41,7 @@ public class AirportServiceImpl implements AirportService {
     }
 
     public Collection<Airport> findAll() {
-        return airportRepository.findAll().size() > 0 ? airportRepository.findAll() : (new ArrayList<Airport>());
+        return airportRepository.findAll();
     }
 
     public Page<Airport> findAll(PageRequest p) {

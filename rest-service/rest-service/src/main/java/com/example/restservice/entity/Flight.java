@@ -5,13 +5,11 @@
  */
 package com.example.restservice.entity;
 
-//import com.example.restservice.viewmodel.TargetView;
-//import com.fasterxml.jackson.annotation.JsonView;
-
-import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Collection;
 import javax.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 /**
  * @author FB-001
@@ -24,24 +22,10 @@ public class Flight {
 
     private String code;
     
-    private Timestamp departureTime;
-//    @JsonView({TargetView.flightView.class, TargetView.orderView.class})
-    private Timestamp arrivalTime;
-//    @JsonView({TargetView.flightView.class, TargetView.orderView.class})
+    private Date departureTime;
+    private Date arrivalTime;
     private Airport departureAirport;
-//    @JsonView({TargetView.flightView.class, TargetView.orderView.class})
     private Airport arrivalAirport;
-    //total seat
-
-    //todo dumming for missing business's feature
-//    @JsonView({TargetView.flightView.class})
-    private int totalSeat;//info of this field maybe moved into another entity storing Plane's info as soon as posible
-//    @JsonView({TargetView.flightView.class})
-    private BigDecimal adultSeatPrice;//temporarily input by user
-//    @JsonView({TargetView.flightView.class})
-    private BigDecimal childSeatPrice;//temporarily input by user
-//    @JsonView({TargetView.flightView.class})
-    private BigDecimal infantSeatPrice;//temporarily input by user
 
     //    price for 3 different age ranks depends on these infomations and based on algorithm which may be cover as soon as possibledeparture:
     // -NET seat price
@@ -49,21 +33,34 @@ public class Flight {
     // -domestic passenger service charge depend on international/ national flight
     // -domestic itineries: (including VAT 10%) for adult depending on airport. Children from 2 to under 12 years pay 50% applicable adult rate. Infants under 2 years without seats are exempt.
     // (VAT: regularly by 10% of NET seat price + dps)
-
-//    @JsonView({TargetView.flightView.class})
     private Collection<Seat> seats;
-//    @JsonView({TargetView.flightView.class})
 
-    public Flight(Timestamp departureTime, Timestamp arrivalTime, Airport departureAirport, Airport arrivalAirport, int totalSeat, BigDecimal adultSeatPrice, BigDecimal childSeatPrice, BigDecimal infantSeatPrice, Collection<Seat> seats) {
+    public Flight(Long id, String code, Date departureTime, Date arrivalTime, Airport departureAirport, Airport arrivalAirport, Collection<Seat> seats) {
+        this.id = id;
+        this.code = code;
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
         this.departureAirport = departureAirport;
         this.arrivalAirport = arrivalAirport;
-        this.totalSeat = totalSeat;
-        this.adultSeatPrice = adultSeatPrice;
-        this.childSeatPrice = childSeatPrice;
-        this.infantSeatPrice = infantSeatPrice;
         this.seats = seats;
+    }
+
+    public Flight(String code, Date departureTime, Date arrivalTime, Airport departureAirport, Airport arrivalAirport, Collection<Seat> seats) {
+        this.code = code;
+        this.departureTime = departureTime;
+        this.arrivalTime = arrivalTime;
+        this.departureAirport = departureAirport;
+        this.arrivalAirport = arrivalAirport;
+        this.seats = seats;
+    }
+
+    public Flight() {
+        
+    }
+
+    public Flight(Date departureTime, Date arrivalTime) {
+        this.departureTime = departureTime;
+        this.arrivalTime = arrivalTime;
     }
 
     @Id
@@ -89,66 +86,27 @@ public class Flight {
     
     @Basic
     @Column(name = "departure_time", nullable = false)
-    public Timestamp getDepartureTime() {
+    public Date getDepartureTime() {
         return departureTime;
     }
 
-    public void setDepartureTime(Timestamp departureTime) {
+    public void setDepartureTime(Date departureTime) {
         this.departureTime = departureTime;
     }
 
     @Basic
     @Column(name = "arrival_time", nullable = false)
-    public Timestamp getArrivalTime() {
+    public Date getArrivalTime() {
         return arrivalTime;
     }
 
-    public void setArrivalTime(Timestamp arrivalTime) {
+    public void setArrivalTime(Date arrivalTime) {
         this.arrivalTime = arrivalTime;
-    }
-
-    @Basic
-    @Column(name = "total_seat", nullable = false)
-    public int getTotalSeat() {
-        return totalSeat;
-    }
-
-    public void setTotalSeat(int totalSeat) {
-        this.totalSeat = totalSeat;
-    }
-
-    @Basic
-    @Column(name = "adult_seat_price", nullable = false)
-    public BigDecimal getAdultSeatPrice() {
-        return adultSeatPrice;
-    }
-
-    public void setAdultSeatPrice(BigDecimal adultSeatPrice) {
-        this.adultSeatPrice = adultSeatPrice;
-    }
-
-    @Basic
-    @Column(name = "child_seat_price", nullable = false)
-    public BigDecimal getChildSeatPrice() {
-        return childSeatPrice;
-    }
-
-    public void setChildSeatPrice(BigDecimal childSeatPrice) {
-        this.childSeatPrice = childSeatPrice;
-    }
-
-    @Basic
-    @Column(name = "infant_seat_price", nullable = false)
-    public BigDecimal getInfantSeatPrice() {
-        return infantSeatPrice;
-    }
-
-    public void setInfantSeatPrice(BigDecimal infantSeatPrice) {
-        this.infantSeatPrice = infantSeatPrice;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "departure_airport_id", referencedColumnName = "id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     public Airport getDepartureAirport() {
         return departureAirport;
     }
@@ -159,6 +117,7 @@ public class Flight {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "arrival_airport_id", referencedColumnName = "id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     public Airport getArrivalAirport() {
         return arrivalAirport;
     }

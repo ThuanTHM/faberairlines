@@ -6,6 +6,7 @@ import com.example.restservice.exception.RecordNotFoundException;
 import com.example.restservice.service.AirportService;
 import com.example.restservice.service.FlightService;
 import com.example.restservice.viewmodel.OrderForm;
+import java.util.Calendar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.ui.Model;
@@ -13,8 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
+import org.springframework.stereotype.Controller;
 
-@RestController
+@Controller
 @RequestMapping(path = {"flight", "/"})
 public class FlightController {
 
@@ -27,7 +29,6 @@ public class FlightController {
     public ModelAndView getAll(HttpServletRequest request) {
         int page = 0; //default page number is 0 (yes it is weird)
         int size = 3; //default page size is 10
-
         if (request.getParameter("page") != null && !request.getParameter("page").isEmpty()) {
             page = Integer.parseInt(request.getParameter("page")) - 1;
         }
@@ -41,17 +42,19 @@ public class FlightController {
         return model;
     }
 
-    @RequestMapping(path= {"/manage/edit", "/manage/edit/{id}"})
+    @RequestMapping(path = {"/manage/edit", "/manage/edit/{id}"})
     public String edit(Model model, @PathVariable("id") Optional<Long> id) throws RecordNotFoundException {
         if (id.isPresent()) {
             Flight flight = flightService.findById(id.get());
             model.addAttribute("flightDetail", flight);
         } else {
-            model.addAttribute("flightDetail", new Airport());
+            model.addAttribute("flightDetail", new Flight(Calendar.getInstance().getTime(), Calendar.getInstance().getTime()));
+            model.addAttribute("airports", airportService.findAll());
         }
         return "flight_modify";
     }
-    @RequestMapping(path= {"/manage/delete/{id}"})
+
+    @RequestMapping(path = {"/manage/delete/{id}"})
     public String delete(Model model, @PathVariable("id") Long id) throws RecordNotFoundException {
         flightService.delete(id);
         return "redirect:/flight/manage";
